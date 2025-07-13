@@ -259,8 +259,7 @@ body {
     font-size: 1.05rem;
     color: #a259ff;
 }
-.status-taken { color: #f59e0b; }
-.status-taken { color: #ff2e63; }
+.status-taken { color: #a259ff; }
 .status-completed { color: #39ff14; }
 .status-available { color: #a259ff; }
 
