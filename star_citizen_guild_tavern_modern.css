@@ -114,6 +114,7 @@ body {
 
 .form-input, .form-textarea, select {
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
     padding: 0.7rem 1rem;
     border: 1.5px solid #00ffe7;
@@ -124,6 +125,10 @@ body {
     font-family: 'Roboto', Arial, sans-serif;
     outline: none;
     transition: border 0.2s;
+}
+input, textarea, select {
+    max-width: 100%;
+    box-sizing: border-box;
 }
 .form-input:focus, .form-textarea:focus, select:focus {
     border: 1.5px solid #00b3a6;
