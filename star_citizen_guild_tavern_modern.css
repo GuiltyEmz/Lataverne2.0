@@ -1,0 +1,430 @@
+/*
+Sci-fi, minimal, modern, realistic UI for Star Citizen Guild
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&display=swap');
+
+body {
+    background: radial-gradient(ellipse at 60% 40%, #10131a 60%, #05070c 100%);
+    color: #e0e6ed;
+    font-family: 'Roboto', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    letter-spacing: 0.01em;
+    overflow-x: hidden;
+}
+
+.stars, .floating-particles {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    width: 1.5px; height: 1.5px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.7;
+    box-shadow: 0 0 6px #00ffe7, 0 0 2px #fff;
+}
+
+.particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #00ffe7;
+    border-radius: 50%;
+    opacity: 0.2;
+    filter: blur(1px);
+}
+
+.header {
+    text-align: center;
+    padding: 2.5rem 0 1.5rem 0;
+    background: rgba(10, 18, 30, 0.7);
+    border-bottom: 1px solid #1a2233;
+    box-shadow: 0 2px 24px 0 #00ffe733;
+    position: relative;
+    z-index: 2;
+}
+
+.title {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 2.7rem;
+    color: #00ffe7;
+    letter-spacing: 0.12em;
+    margin: 0 0 0.3rem 0;
+    text-shadow: 0 0 12px #00ffe7cc, 0 0 2px #fff;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #b0b8c6;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+}
+
+.user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1.2rem;
+}
+
+.user-info.hidden { display: none; }
+
+.user-info #userDetails {
+    font-size: 1.1rem;
+    color: #00ffe7;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+
+.container {
+    max-width: 540px;
+    margin: 2.5rem auto 0 auto;
+    background: rgba(18, 24, 36, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 #00ffe71a;
+    padding: 2.5rem 2.2rem 2.2rem 2.2rem;
+    z-index: 2;
+    position: relative;
+}
+
+.login-container, .contract-card {
+    background: rgba(12, 18, 28, 0.98);
+    border-radius: 14px;
+    box-shadow: 0 2px 16px 0 #00ffe71a;
+    padding: 2rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.3rem;
+}
+
+.form-label {
+    display: block;
+    color: #b0b8c6;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+}
+
+.form-input, .form-textarea, select {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #00ffe7;
+    border-radius: 8px;
+    background: #10131a;
+    color: #e0e6ed;
+    font-size: 1rem;
+    font-family: 'Roboto', Arial, sans-serif;
+    outline: none;
+    transition: border 0.2s;
+}
+.form-input:focus, .form-textarea:focus, select:focus {
+    border: 1.5px solid #00b3a6;
+}
+.form-textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.btn {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.05rem;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #00ffe7 0%, #00b3a6 100%);
+    color: #10131a;
+    font-weight: 700;
+    box-shadow: 0 2px 12px 0 #00ffe733;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+}
+.btn:hover {
+    background: linear-gradient(90deg, #00b3a6 0%, #00ffe7 100%);
+    color: #fff;
+}
+.btn-secondary {
+    background: none;
+    color: #00ffe7;
+    border: 1.5px solid #00ffe7;
+    box-shadow: none;
+}
+.btn-secondary:hover {
+    background: #00ffe71a;
+    color: #fff;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2.2rem;
+    background: rgba(10, 18, 30, 0.7);
+    border-radius: 12px;
+    padding: 0.7rem 0;
+    box-shadow: 0 2px 12px 0 #00ffe71a;
+}
+.nav-btn {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #b0b8c6;
+    background: none;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-btn.active, .nav-btn:hover {
+    background: #00ffe71a;
+    color: #00ffe7;
+}
+
+.contract-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.contract-card {
+    border: 1.5px solid #00ffe7;
+    margin-bottom: 0;
+    box-shadow: 0 2px 16px 0 #00ffe71a;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.contract-card:hover {
+    box-shadow: 0 4px 32px 0 #00ffe7cc;
+    border: 1.5px solid #00b3a6;
+}
+.contract-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.7rem;
+}
+.contract-title {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.3rem;
+    color: #00ffe7;
+    margin: 0;
+}
+.contract-reward {
+    font-size: 1.1rem;
+    color: #fff;
+    background: #00b3a6;
+    border-radius: 6px;
+    padding: 0.2rem 0.7rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    box-shadow: 0 1px 6px 0 #00ffe733;
+}
+.provider-info {
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+    color: #b0b8c6;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+.verified-badge {
+    color: #00ffe7;
+    font-size: 1.1rem;
+    margin-left: 0.3rem;
+}
+.provider-rating {
+    font-size: 0.95rem;
+    color: #00ffe7;
+    margin-left: 0.5rem;
+}
+.contract-description {
+    color: #b0b8c6;
+    margin-bottom: 0.7rem;
+    font-size: 1.05rem;
+}
+.contract-details {
+    display: flex;
+    justify-content: space-between;
+    color: #b0b8c6;
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+}
+.contract-status {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.05rem;
+    color: #00ffe7;
+}
+.status-taken { color: #f59e0b; }
+.status-completed { color: #10b981; }
+.status-available { color: #00ffe7; }
+
+.contract-actions {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+}
+
+.member-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+.member-card {
+    background: rgba(18, 24, 36, 0.95);
+    border: 1.5px solid #00ffe7;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px 0 #00ffe71a;
+    padding: 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.member-card:hover {
+    box-shadow: 0 4px 24px 0 #00ffe7cc;
+    border: 1.5px solid #00b3a6;
+}
+.member-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ffe7 60%, #00b3a6 100%);
+    color: #10131a;
+    font-size: 1.7rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.7rem;
+    font-weight: 700;
+    box-shadow: 0 2px 8px 0 #00ffe733;
+}
+.member-name {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #00ffe7;
+    margin-bottom: 0.2rem;
+}
+.member-role {
+    color: #b0b8c6;
+    font-size: 0.98rem;
+    margin-bottom: 0.5rem;
+}
+.member-stats {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 0.7rem;
+}
+.stat {
+    text-align: center;
+}
+.stat-value {
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.1rem;
+    color: #00ffe7;
+}
+.stat-label {
+    color: #b0b8c6;
+    font-size: 0.9rem;
+}
+
+.section {
+    display: none;
+}
+.section.active {
+    display: block;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(10, 18, 30, 0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+}
+.modal.active {
+    display: flex;
+}
+.modal-content {
+    background: #10131a;
+    border-radius: 14px;
+    box-shadow: 0 4px 32px 0 #00ffe7cc;
+    padding: 2.2rem 2rem;
+    min-width: 320px;
+    max-width: 95vw;
+    color: #e0e6ed;
+    position: relative;
+}
+.close-modal {
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    background: none;
+    border: none;
+    color: #00ffe7;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.close-modal:hover {
+    color: #fff;
+}
+
+.notification {
+    position: fixed;
+    top: 2.5rem; right: 2.5rem;
+    background: #10131a;
+    color: #00ffe7;
+    border: 1.5px solid #00ffe7;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    font-family: 'Orbitron', Arial, sans-serif;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 12px 0 #00ffe733;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 200;
+    transition: opacity 0.3s;
+}
+.notification.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.notification.success {
+    border-color: #10b981;
+    color: #10b981;
+}
+.notification.error {
+    border-color: #f43f5e;
+    color: #f43f5e;
+}
+
+/* Minimalistic scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+    background: #10131a;
+}
+::-webkit-scrollbar-thumb {
+    background: #00ffe7;
+    border-radius: 8px;
+}
+
+@media (max-width: 700px) {
+    .container {
+        padding: 1.2rem 0.5rem;
+    }
+    .contract-card, .login-container {
+        padding: 1.2rem 0.7rem;
+    }
+    .nav {
+        gap: 0.5rem;
+    }
+    .member-list {
+        grid-template-columns: 1fr;
+    }
+}
