@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Taverne Stellaire - Guilde Star Citizen</title>
+    <link rel="stylesheet" href="star_citizen_guild_tavern.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="floating-particles"></div>
+
+    <div id="notification" class="notification"></div>
+
+    <header class="header">
+        <h1 class="title">La Taverne Stellaire</h1>
+        <p class="subtitle">Centre de Commandement de la Guilde • Star Citizen</p>
+        <div id="userInfo" class="user-info hidden">
+            <div id="userDetails"></div>
+            <button onclick="logout()" class="btn btn-secondary" style="margin-top: 1rem;">Déconnexion</button>
+        </div>
+    </header>
+
+    <div id="loginSection" class="container">
+        <div class="login-container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #00d4ff;">Connexion Guilde</h2>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <input type="password" id="loginPassword" class="form-input" placeholder="••••••••">
+            </div>
+            <button onclick="login()" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">Se connecter</button>
+            <button onclick="showRegister()" class="btn btn-secondary" style="width: 100%;">Créer un compte</button>
+        </div>
+    </div>
+
+    <div id="registerSection" class="container" style="display: none;">
+        <div class="login-container">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #00d4ff;">Inscription Guilde</h2>
+            <div class="form-group">
+                <label class="form-label">Pseudo RSI</label>
+                <input type="text" id="registerUsername" class="form-input" placeholder="VotrePseudoRSI">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" id="registerEmail" class="form-input" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mot de passe</label>
+                <input type="password" id="registerPassword" class="form-input" placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Spécialité</label>
+                <select id="registerSpecialty" class="form-input">
+                    <option value="">Sélectionnez votre spécialité</option>
+                    <option value="Combat">Pilote de Combat</option>
+                    <option value="Transport">Transporteur</option>
+                    <option value="Minage">Mineur</option>
+                    <option value="Exploration">Explorateur</option>
+                    <option value="Medecine">Médecin</option>
+                    <option value="Commerce">Marchand</option>
+                    <option value="Ingenierie">Ingénieur</option>
+                </select>
+            </div>
+            <button onclick="register()" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">S'inscrire</button>
+            <button onclick="showLogin()" class="btn btn-secondary" style="width: 100%;">Retour connexion</button>
+        </div>
+    </div>
+
+    <div id="mainContent" style="display: none;">
+        <nav class="nav">
+            <button class="nav-btn active" onclick="showSection('contracts')">Contrats</button>
+            <button class="nav-btn" onclick="showSection('create')">Créer Contrat</button>
+            <button class="nav-btn" onclick="showSection('members')">Membres</button>
+            <button class="nav-btn" onclick="showSection('profile')">Mon Profil</button>
+        </nav>
+
+        <div class="container">
+            <section id="contracts" class="section active">
+                <div id="contractsGrid" class="contract-grid">
+                    <!-- Les contrats seront chargés dynamiquement -->
+                </div>
+            </section>
+
+            <section id="create" class="section">
+                <div class="contract-card" style="max-width: 600px; margin: 0 auto;">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: #00d4ff;">Créer un Nouveau Contrat</h2>
+                    <form id="createContractForm">
+                        <div class="form-group">
+                            <label class="form-label">Titre du Contrat</label>
+                            <input type="text" id="contractTitle" class="form-input" placeholder="Ex: Transport de Marchandises" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea id="contractDescription" class="form-input form-textarea" placeholder="Décrivez les détails du contrat..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Récompense (UEC)</label>
+                            <input type="number" id="contractReward" class="form-input" placeholder="25000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Difficulté</label>
+                            <select id="contractDifficulty" class="form-input" required>
+                                <option value="">Sélectionnez la difficulté</option>
+                                <option value="1">★☆☆☆☆ - Très Facile</option>
+                                <option value="2">★★☆☆☆ - Facile</option>
+                                <option value="3">★★★☆☆ - Moyen</option>
+                                <option value="4">★★★★☆ - Difficile</option>
+                                <option value="5">★★★★★ - Très Difficile</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Localisation</label>
+                            <input type="text" id="contractLocation" class="form-input" placeholder="Ex: Stanton System" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Type de Contrat</label>
+                            <select id="contractType" class="form-input" required>
+                                <option value="">Sélectionnez le type</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Combat">Combat</option>
+                                <option value="Exploration">Exploration</option>
+                                <option value="Minage">Minage</option>
+                                <option value="Escorte">Escorte</option>
+                                <option value="Livraison">Livraison</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Publier le Contrat</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="members" class="section">
+                <div id="membersList" class="member-list">
+                    <!-- Les membres seront chargés dynamiquement -->
+                </div>
+            </section>
+
+            <section id="profile" class="section">
+                <div class="contract-card" style="max-width: 600px; margin: 0 auto;">
+                    <h2 style="text-align: center; margin-bottom: 2rem; color: #00d4ff;">Mon Profil</h2>
+                    <div id="profileContent">
+                        <!-- Le contenu du profil sera chargé dynamiquement -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal pour les détails du contrat -->
+    <div id="contractModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('contractModal')">&times;</button>
+            <div id="contractDetails"></div>
+        </div>
+    </div>
+
+    <!-- Modal pour noter un utilisateur -->
+    <div id="ratingModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('ratingModal')">&times;</button>
+            <h3 style="margin-bottom: 1rem; color: #00d4ff;">Noter ce membre</h3>
+            <div id="ratingContent"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Configuration Firebase (À remplacer par votre configuration)
+        const firebaseConfig = {
+            // Vos clés Firebase ici
+            apiKey: "your-api-key",
+            authDomain: "your-project.firebaseapp.com",
+            databaseURL: "https://your-project.firebaseio.com",
+            projectId: "your-project",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "your-app-id"
+        };
+
+        // Simuler Firebase pour la démonstration
+        const mockFirebase = {
+            auth: {
+                currentUser: null,
+                onAuthStateChanged: (callback) => {
+                    // Simuler l'état d'authentification
+                    setTimeout(() => callback(this.currentUser), 100);
+                },
+                signInWithEmailAndPassword: (email, password) => {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            if (email && password) {
+                                this.currentUser = {
+                                    uid: 'mock-uid-' + Date.now(),
+                                    email: email,
+                                    displayName: email.split('@')[0]
+                                };
+                                resolve({ user: this.currentUser });
+                            } else {
+                                reject(new Error('Identifiants invalides'));
+                            }
+                        }, 1000);
+                    });
+                },
+                createUserWithEmailAndPassword: (email, password) => {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            if (email && password) {
+                                this.currentUser = {
+                                    uid: 'mock-uid-' + Date.now(),
+                                    email: email,
+                                    displayName: email.split('@')[0]
+                                };
+                                resolve({ user: this.currentUser });
+                            } else {
+                                reject(new Error('Erreur lors de la création du compte'));
+                            }
+                        }, 1000);
+                    });
+                },
+                signOut: () => {
+                    return new Promise((resolve) => {
+                        this.currentUser = null;
+                        resolve();
+                    });
+                }
+            },
+            database: {
+                ref: (path) => ({
+                    push: (data) => Promise.resolve({ key: 'mock-key-' + Date.now() }),
+                    set: (data) => Promise.resolve(),
+                    once: (eventType) => Promise.resolve({
+                        val: () => mockData[path] || null
+                    }),
+                    on: (eventType, callback) => {
+                        setTimeout(() => callback({
+                            val: () => mockData[path] || null
+                        }), 100);
+                    }
+                })
+            }
+        };
+
+        // Données mockées pour la démonstration
+        const mockData = {
+            'contracts': {
+                'contract1': {
+                    id: 'contract1',
+                    title: 'Transport de Marchandises',
+                    description: 'Transport sécurisé de marchandises médicales d\'Area 18 vers Port Olisar. Attention aux pirates dans la zone de Crusader !',
+                    reward: 45000,
+                    difficulty: 4,
+                    location: 'Stanton System',
+                    type: 'Escorte',
+                    status: 'taken',
+                    takenBy: 'mock-uid-merc1',
+                    createdBy: 'mock-uid-provider2',
+                    createdAt: Date.now() - 172800000,
+                    provider: {
+                        username: 'VIPServices',
+                        rating: 4.8,
+                        verified: true
+                    },
+                    assignedTo: {
+                        username: 'Ghost-Rider',
+                        rating: 4.2
+                    }
+                },
+                'contract3': {
+                    id: 'contract3',
+                    title: 'Élimination de Pirates',
+                    description: 'Nettoyer le secteur Yela des pirates qui perturbent les routes commerciales. Équipe de 3-4 chasseurs recommandée.',
+                    reward: 60000,
+                    difficulty: 5,
+                    location: 'Crusader System',
+                    type: 'Combat',
+                    status: 'available',
+                    createdBy: 'mock-uid-provider3',
+                    createdAt: Date.now() - 259200000,
+                    provider: {
+                        username: 'SecurityCorp',
+                        rating: 4.9,
+                        verified: true
+                    }
+                }
+            },
+            'users': {
+                'mock-uid-provider1': {
+                    username: 'TradeMaster',
+                    email: 'trade@example.com',
+                    specialty: 'Commerce',
+                    rating: 4.5,
+                    totalContracts: 23,
+                    completedContracts: 21,
+                    verified: true,
+                    joinDate: Date.now() - 7776000000,
+                    credits: 150000
+                },
+                'mock-uid-merc1': {
+                    username: 'Ghost-Rider',
+                    email: 'ghost@example.com',
+                    specialty: 'Combat',
+                    rating: 4.2,
+                    totalContracts: 15,
+                    completedContracts: 13,
+                    verified: true,
+                    joinDate: Date.now() - 5184000000,
+                    credits: 89000
+                }
+            },
+            'reviews': {
+                'mock-uid-provider1': [
+                    {
+                        author: 'Ghost-Rider',
+                        rating: 5,
+                        comment: 'Excellent fournisseur, paiement rapide et contrat clair.',
+                        date: Date.now() - 86400000
+                    },
+                    {
+                        author: 'StarMiner',
+                        rating: 4,
+                        comment: 'Bon contrat, quelques détails manquants mais globalement satisfait.',
+                        date: Date.now() - 172800000
+                    }
+                ]
+            }
+        };
+
+        // Variables globales
+        let currentUser = null;
+        let contracts = [];
+        let users = [];
+
+        // Fonctions d'authentification
+        window.login = async function() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            try {
+                const result = await mockFirebase.auth.signInWithEmailAndPassword(email, password);
+                currentUser = result.user;
+                
+                // Charger ou créer le profil utilisateur
+                await loadUserProfile();
+                
+                showMainContent();
+                showNotification('Connexion réussie !', 'success');
+                loadContracts();
+                loadMembers();
+            } catch (error) {
+                showNotification('Erreur de connexion: ' + error.message, 'error');
+            }
+        };
+
+        window.register = async function() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const specialty = document.getElementById('registerSpecialty').value;
+
+            if (!username || !email || !password || !specialty) {
+                showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            try {
+                const result = await mockFirebase.auth.createUserWithEmailAndPassword(email, password);
+                currentUser = result.user;
+
+                // Créer le profil utilisateur
+                const userProfile = {
+                    username: username,
+                    email: email,
+                    specialty: specialty,
+                    rating: 5.0,
+                    totalContracts: 0,
+                    completedContracts: 0,
+                    verified: false,
+                    joinDate: Date.now(),
+                    credits: 0
+                };
+
+                await mockFirebase.database.ref('users/' + currentUser.uid).set(userProfile);
+                
+                showMainContent();
+                showNotification('Compte créé avec succès !', 'success');
+                loadContracts();
+                loadMembers();
+            } catch (error) {
+                showNotification('Erreur lors de l\'inscription: ' + error.message, 'error');
+            }
+        };
+
+        window.logout = async function() {
+            try {
+                await mockFirebase.auth.signOut();
+                currentUser = null;
+                document.getElementById('mainContent').style.display = 'none';
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('userInfo').classList.add('hidden');
+                showNotification('Déconnexion réussie', 'success');
+            } catch (error) {
+                showNotification('Erreur lors de la déconnexion', 'error');
+            }
+        };
+
+        // Fonctions d'affichage
+        window.showLogin = function() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('registerSection').style.display = 'none';
+        };
+
+        window.showRegister = function() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'block';
+        };
+
+        function showMainContent() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('registerSection').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('userInfo').classList.remove('hidden');
+            updateUserInfo();
+        }
+
+        function updateUserInfo() {
+            if (currentUser) {
+                document.getElementById('userDetails').innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(45deg, #00d4ff, #0099cc); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000;">
+                            ${currentUser.displayName.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; color: #00d4ff;">${currentUser.displayName}</div>
+                            <div style="font-size: 0.9rem; color: #888;">Membre connecté</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Fonctions de navigation
+        window.showSection = function(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (sectionId === 'profile') {
+                loadProfile();
+            }
+        };
+
+        // Fonctions de chargement des données
+        async function loadUserProfile() {
+            try {
+                const snapshot = await mockFirebase.database.ref('users/' + currentUser.uid).once('value');
+                const userData = snapshot.val();
+                
+                if (userData) {
+                    currentUser.profile = userData;
+                } else {
+                    // Créer un profil par défaut si inexistant
+                    const defaultProfile = {
+                        username: currentUser.displayName,
+                        email: currentUser.email,
+                        specialty: 'Non défini',
+                        rating: 5.0,
+                        totalContracts: 0,
+                        completedContracts: 0,
+                        verified: false,
+                        joinDate: Date.now(),
+                        credits: 0
+                    };
+                    await mockFirebase.database.ref('users/' + currentUser.uid).set(defaultProfile);
+                    currentUser.profile = defaultProfile;
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement du profil:', error);
+            }
+        }
+
+        function loadContracts() {
+            const contractsGrid = document.getElementById('contractsGrid');
+            contractsGrid.innerHTML = '';
+
+            Object.values(mockData.contracts).forEach(contract => {
+                const contractCard = createContractCard(contract);
+                contractsGrid.appendChild(contractCard);
+            });
+        }
+
+        function createContractCard(contract) {
+            const card = document.createElement('div');
+            card.className = 'contract-card';
+            
+            const difficultyStars = '★'.repeat(contract.difficulty) + '☆'.repeat(5 - contract.difficulty);
+            const statusClass = `status-${contract.status}`;
+            const statusText = {
+                'available': 'Disponible',
+                'taken': `Pris par: ${contract.assignedTo?.username || 'Inconnu'}`,
+                'completed': 'Terminé'
+            }[contract.status];
+
+            card.innerHTML = `
+                <div class="contract-header">
+                    <h3 class="contract-title">${contract.title}</h3>
+                    <div class="contract-reward">${contract.reward.toLocaleString()} UEC</div>
+                </div>
+                
+                <div class="provider-info">
+                    <span style="color: #888;">Fournisseur:</span>
+                    <span style="color: #00d4ff; font-weight: bold;">${contract.provider.username}</span>
+                    ${contract.provider.verified ? '<span class="verified-badge">✓ Vérifié</span>' : ''}
+                    <div class="provider-rating">
+                        <span class="stars-rating">${'★'.repeat(Math.floor(contract.provider.rating))}${'☆'.repeat(5 - Math.floor(contract.provider.rating))}</span>
+                        <span style="color: #888;">(${contract.provider.rating})</span>
+                    </div>
+                </div>
+
+                <p class="contract-description">${contract.description}</p>
+                
+                <div class="contract-details">
+                    <div class="contract-status ${statusClass}">${statusText}</div>
+                    <div>Difficulté: ${difficultyStars}</div>
+                </div>
+                
+                <div class="contract-details">
+                    <div style="color: #888;">Type: ${contract.type}</div>
+                    <div style="color: #888;">Localisation: ${contract.location}</div>
+                </div>
+                
+                <div class="contract-actions">
+                    ${contract.status === 'available' ? 
+                        `<button class="btn btn-primary" onclick="takeContract('${contract.id}')">Accepter</button>` :
+                        `<button class="btn btn-secondary" disabled>Indisponible</button>`
+                    }
+                    <button class="btn btn-secondary" onclick="showContractDetails('${contract.id}')">Détails</button>
+                    ${contract.status === 'completed' ? 
+                        `<button class="btn btn-secondary" onclick="rateProvider('${contract.createdBy}')">Noter</button>` : ''
+                    }
+                </div>
+            `;
+
+            return card;
+        }
+
+        function loadMembers() {
+            const membersList = document.getElementById('membersList');
+            membersList.innerHTML = '';
+
+            Object.entries(mockData.users).forEach(([uid, user]) => {
+                const memberCard = createMemberCard(user, uid);
+                membersList.appendChild(memberCard);
+            });
+        }
+
+        function createMemberCard(user, uid) {
+            const card = document.createElement('div');
+            card.className = 'member-card';
+            
+            const successRate = user.totalContracts > 0 ? 
+                Math.round((user.completedContracts / user.totalContracts) * 100) : 100;
+
+            card.innerHTML = `
+                <div class="member-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                <div class="member-name">
+                    ${user.username}
+                    ${user.verified ? '<span style="color: #10b981; font-size: 0.8rem;">✓</span>' : ''}
+                </div>
+                <div class="member-role">${user.specialty} • ${user.totalContracts > 0 ? 'Expérimenté' : 'Débutant'}</div>
+                
+                <div class="provider-rating">
+                    <span class="stars-rating">${'★'.repeat(Math.floor(user.rating))}${'☆'.repeat(5 - Math.floor(user.rating))}</span>
+                    <span style="color: #888;">(${user.rating})</span>
+                </div>
+                
+                <div class="member-stats">
+                    <div class="stat">
+                        <div class="stat-value">${user.completedContracts}</div>
+                        <div class="stat-label">Contrats</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${successRate}%</div>
+                        <div class="stat-label">Succès</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${(user.credits / 1000).toFixed(0)}k</div>
+                        <div class="stat-label">UEC</div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="showMemberProfile('${uid}')" style="margin-top: 1rem; width: 100%;">
+                    Voir Profil
+                </button>
+            `;
+
+            return card;
+        }
+
+        function loadProfile() {
+            if (!currentUser || !currentUser.profile) return;
+
+            const profile = currentUser.profile;
+            const successRate = profile.totalContracts > 0 ? 
+                Math.round((profile.completedContracts / profile.totalContracts) * 100) : 100;
+
+            document.getElementById('profileContent').innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div class="member-avatar" style="margin: 0 auto 1rem;">${profile.username.charAt(0).toUpperCase()}</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 0.5rem;">
+                        ${profile.username}
+                        ${profile.verified ? '<span style="color: #10b981;">✓ Vérifié</span>' : '<span style="color: #f59e0b;">⚠ Non vérifié</span>'}
+                    </h3>
+                    <p style="color: #888;">${profile.specialty}</p>
+                </div>
+                
+                <div class="member-stats" style="margin-bottom: 2rem;">
+                    <div class="stat">
+                        <div class="stat-value">${profile.completedContracts}</div>
+                        <div class="stat-label">Contrats Terminés</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${successRate}%</div>
+                        <div class="stat-label">Taux de Succès</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${profile.credits.toLocaleString()}</div>
+                        <div class="stat-label">UEC Gagnés</div>
+                    </div>
+                </div>
+                
+                <div class="provider-rating" style="text-align: center; margin-bottom: 2rem;">
+                    <span class="stars-rating" style="font-size: 1.5rem;">${'★'.repeat(Math.floor(profile.rating))}${'☆'.repeat(5 - Math.floor(profile.rating))}</span>
+                    <div style="color: #888; margin-top: 0.5rem;">Note moyenne: ${profile.rating}/5</div>
+                </div>
+                
+                <div style="text-align: center; color: #888; font-size: 0.9rem;">
+                    Membre depuis: ${new Date(profile.joinDate).toLocaleDateString('fr-FR')}
+                </div>
+                
+                ${loadUserReviews()}
+            `;
+        }
+
+        function loadUserReviews() {
+            const reviews = mockData.reviews[currentUser.uid] || [];
+            
+            if (reviews.length === 0) {
+                return `
+                    <div class="rating-section">
+                        <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus</h4>
+                        <p style="color: #888; text-align: center;">Aucun avis pour le moment</p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div class="rating-section">
+                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${reviews.length})</h4>
+                    <div class="reviews-list">
+                        ${reviews.map(review => `
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span class="review-author">${review.author}</span>
+                                    <span class="stars-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                                    <span class="review-date">${new Date(review.date).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                                <p>${review.comment}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonctions d'interaction
+        window.takeContract = function(contractId) {
+            const contract = mockData.contracts[contractId];
+            if (contract && contract.status === 'available') {
+                contract.status = 'taken';
+                contract.takenBy = currentUser.uid;
+                contract.assignedTo = {
+                    username: currentUser.profile.username,
+                    rating: currentUser.profile.rating
+                };
+                
+                loadContracts();
+                showNotification('Contrat accepté avec succès !', 'success');
+            }
+        };
+
+        window.showContractDetails = function(contractId) {
+            const contract = mockData.contracts[contractId];
+            if (!contract) return;
+
+            const modal = document.getElementById('contractModal');
+            const details = document.getElementById('contractDetails');
+            
+            details.innerHTML = `
+                <h3 style="color: #00d4ff; margin-bottom: 1rem;">${contract.title}</h3>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Récompense:</strong> ${contract.reward.toLocaleString()} UEC
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Type:</strong> ${contract.type} | <strong>Difficulté:</strong> ${'★'.repeat(contract.difficulty)}${'☆'.repeat(5 - contract.difficulty)}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Localisation:</strong> ${contract.location}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Fournisseur:</strong> ${contract.provider.username} 
+                    ${contract.provider.verified ? '<span class="verified-badge">✓ Vérifié</span>' : ''}
+                    <div class="provider-rating">
+                        <span class="stars-rating">${'★'.repeat(Math.floor(contract.provider.rating))}${'☆'.repeat(5 - Math.floor(contract.provider.rating))}</span>
+                        <span>(${contract.provider.rating})</span>
+                    </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Description:</strong><br>
+                    ${contract.description}
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Statut:</strong> ${contract.status === 'available' ? 'Disponible' : 
+                        contract.status === 'taken' ? `Pris par ${contract.assignedTo?.username}` : 'Terminé'}
+                </div>
+                <div style="color: #888; font-size: 0.9rem;">
+                    Publié le: ${new Date(contract.createdAt).toLocaleDateString('fr-FR')}
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        };
+
+        window.rateProvider = function(providerId) {
+            const modal = document.getElementById('ratingModal');
+            const content = document.getElementById('ratingContent');
+            
+            content.innerHTML = `
+                <div class="rating-input">
+                    ${[1,2,3,4,5].map(star => 
+                        `<button class="star-btn" onclick="selectRating(${star})" data-rating="${star}">★</button>`
+                    ).join('')}
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Commentaire</label>
+                    <textarea id="reviewComment" class="form-input form-textarea" placeholder="Votre avis sur ce fournisseur..."></textarea>
+                </div>
+                <button class="btn btn-primary" onclick="submitRating('${providerId}')" style="width: 100%;">
+                    Publier l'avis
+                </button>
+            `;
+            
+            modal.classList.add('active');
+        };
+
+        window.selectRating = function(rating) {
+            document.querySelectorAll('.star-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index < rating);
+            });
+            window.selectedRating = rating;
+        };
+
+        window.submitRating = function(providerId) {
+            const rating = window.selectedRating;
+            const comment = document.getElementById('reviewComment').value;
+            
+            if (!rating) {
+                showNotification('Veuillez sélectionner une note', 'error');
+                return;
+            }
+            
+            if (!comment.trim()) {
+                showNotification('Veuillez ajouter un commentaire', 'error');
+                return;
+            }
+            
+            // Ajouter l'avis aux données mockées
+            if (!mockData.reviews[providerId]) {
+                mockData.reviews[providerId] = [];
+            }
+            
+            mockData.reviews[providerId].push({
+                author: currentUser.profile.username,
+                rating: rating,
+                comment: comment,
+                date: Date.now()
+            });
+            
+            closeModal('ratingModal');
+            showNotification('Avis publié avec succès !', 'success');
+        };
+
+        window.showMemberProfile = function(userId) {
+            const user = mockData.users[userId];
+            if (!user) return;
+            
+            const reviews = mockData.reviews[userId] || [];
+            const successRate = user.totalContracts > 0 ? 
+                Math.round((user.completedContracts / user.totalContracts) * 100) : 100;
+            
+            const modal = document.getElementById('contractModal');
+            const details = document.getElementById('contractDetails');
+            
+            details.innerHTML = `
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div class="member-avatar" style="margin: 0 auto 1rem;">${user.username.charAt(0).toUpperCase()}</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 0.5rem;">
+                        ${user.username}
+                        ${user.verified ? '<span style="color: #10b981;">✓ Vérifié</span>' : ''}
+                    </h3>
+                    <p style="color: #888;">${user.specialty}</p>
+                </div>
+                
+                <div class="member-stats" style="margin-bottom: 2rem;">
+                    <div class="stat">
+                        <div class="stat-value">${user.completedContracts}</div>
+                        <div class="stat-label">Contrats Terminés</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${successRate}%</div>
+                        <div class="stat-label">Taux de Succès</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">${user.credits.toLocaleString()}</div>
+                        <div class="stat-label">UEC Gagnés</div>
+                    </div>
+                </div>
+                
+                <div class="provider-rating" style="text-align: center; margin-bottom: 2rem;">
+                    <span class="stars-rating" style="font-size: 1.5rem;">${'★'.repeat(Math.floor(user.rating))}${'☆'.repeat(5 - Math.floor(user.rating))}</span>
+                    <div style="color: #888; margin-top: 0.5rem;">Note moyenne: ${user.rating}/5</div>
+                </div>
+                
+                <div style="text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 2rem;">
+                    Membre depuis: ${new Date(user.joinDate).toLocaleDateString('fr-FR')}
+                </div>
+                
+                ${reviews.length > 0 ? `
+                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${reviews.length})</h4>
+                    <div class="reviews-list">
+                        ${reviews.map(review => `
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span class="review-author">${review.author}</span>
+                                    <span class="stars-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</span>
+                                    <span class="review-date">${new Date(review.date).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                                <p>${review.comment}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : '<p style="color: #888; text-align: center;">Aucun avis pour le moment</p>'}
+            `;
+            
+            modal.classList.add('active');
+        };
+
+        window.closeModal = function(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        };
+
+        // Gestion du formulaire de création de contrat
+        document.getElementById('createContractForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const contractData = {
+                id: 'contract_' + Date.now(),
+                title: document.getElementById('contractTitle').value,
+                description: document.getElementById('contractDescription').value,
+                reward: parseInt(document.getElementById('contractReward').value),
+                difficulty: parseInt(document.getElementById('contractDifficulty').value),
+                location: document.getElementById('contractLocation').value,
+                type: document.getElementById('contractType').value,
+                status: 'available',
+                createdBy: currentUser.uid,
+                createdAt: Date.now(),
+                provider: {
+                    username: currentUser.profile.username,
+                    rating: currentUser.profile.rating,
+                    verified: currentUser.profile.verified
+                }
+            };
+            
+            // Ajouter aux données mockées
+            mockData.contracts[contractData.id] = contractData;
+            
+            // Recharger les contrats
+            loadContracts();
+            
+            // Réinitialiser le formulaire
+            this.reset();
+            
+            // Retourner à la section des contrats
+            showSection('contracts');
+            
+            showNotification('Contrat créé avec succès !', 'success');
+        });
+
+        // Fonctions utilitaires
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Générer les étoiles et particules
+        function createStars() {
+            const starContainer = document.querySelector('.stars');
+            const numStars = 200;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starContainer.appendChild(star);
+            }
+        }
+
+        function createParticles() {
+            const particleContainer = document.querySelector('.floating-particles');
+            const numParticles = 50;
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // Fermer les modals en cliquant à l'extérieur
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Initialisation
+        createStars();
+        createParticles();
+
+        // Vérifier l'état d'authentification au chargement
+        mockFirebase.auth.onAuthStateChanged(function(user) {
+            if (user) {
+                currentUser = user;
+                loadUserProfile().then(() => {
+                    showMainContent();
+                    loadContracts();
+                    loadMembers();
+                });
+            }
+        });
+    </script>
+</body>
+</html> 25000,
+                    difficulty: 2,
+                    location: 'Stanton System',
+                    type: 'Transport',
+                    status: 'available',
+                    createdBy: 'mock-uid-provider1',
+                    createdAt: Date.now() - 86400000,
+                    provider: {
+                        username: 'TradeMaster',
+                        rating: 4.5,
+                        verified: true
+                    }
+                },
+                'contract2': {
+                    id: 'contract2',
+                    title: 'Escorte VIP',
+                    description: 'Escorte d\'un dignitaire de l\'UEE de Lorville vers New Babbage. Haute priorité, discrétion requise.',
+                    reward:
