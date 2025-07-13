@@ -5,8 +5,8 @@ Sci-fi, minimal, modern, realistic UI for Star Citizen Guild
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&display=swap');
 
 body {
-    background: radial-gradient(ellipse at 60% 40%, #10131a 60%, #05070c 100%);
-    color: #e0e6ed;
+    background: radial-gradient(ellipse at 60% 40%, #2a1850 60%, #0a0a23 100%);
+    color: #e0c3fc;
     font-family: 'Roboto', Arial, sans-serif;
     margin: 0;
     min-height: 100vh;
@@ -27,13 +27,13 @@ body {
     background: #fff;
     border-radius: 50%;
     opacity: 0.7;
-    box-shadow: 0 0 6px #00ffe7, 0 0 2px #fff;
+    box-shadow: 0 0 8px #a259ff, 0 0 2px #fff;
 }
 
 .particle {
     position: absolute;
     width: 2px; height: 2px;
-    background: #00ffe7;
+    background: #39ff14;
     border-radius: 50%;
     opacity: 0.2;
     filter: blur(1px);
@@ -42,9 +42,9 @@ body {
 .header {
     text-align: center;
     padding: 2.5rem 0 1.5rem 0;
-    background: rgba(10, 18, 30, 0.7);
-    border-bottom: 1px solid #1a2233;
-    box-shadow: 0 2px 24px 0 #00ffe733;
+    background: rgba(42, 24, 80, 0.85);
+    border-bottom: 1px solid #a259ff;
+    box-shadow: 0 2px 24px 0 #a259ff55;
     position: relative;
     z-index: 2;
 }
@@ -52,10 +52,10 @@ body {
 .title {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 2.7rem;
-    color: #00ffe7;
+    color: #a259ff;
     letter-spacing: 0.12em;
     margin: 0 0 0.3rem 0;
-    text-shadow: 0 0 12px #00ffe7cc, 0 0 2px #fff;
+    text-shadow: 0 0 16px #a259ffcc, 0 0 2px #fff;
 }
 
 .subtitle {
@@ -194,14 +194,14 @@ body {
 }
 
 .contract-card {
-    border: 1.5px solid #00ffe7;
+    border: 1.5px solid #a259ff;
     margin-bottom: 0;
     box-shadow: 0 2px 16px 0 #00ffe71a;
     transition: box-shadow 0.2s, border 0.2s;
 }
 .contract-card:hover {
-    box-shadow: 0 4px 32px 0 #00ffe7cc;
-    border: 1.5px solid #00b3a6;
+    box-shadow: 0 4px 32px 0 #a259ffcc;
+    border: 1.5px solid #39ff14;
 }
 .contract-header {
     display: flex;
@@ -212,13 +212,13 @@ body {
 .contract-title {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 1.3rem;
-    color: #00ffe7;
+    color: #39ff14;
     margin: 0;
 }
 .contract-reward {
     font-size: 1.1rem;
     color: #fff;
-    background: #00b3a6;
+    background: #a259ff;
     border-radius: 6px;
     padding: 0.2rem 0.7rem;
     font-family: 'Orbitron', Arial, sans-serif;
@@ -227,41 +227,42 @@ body {
 .provider-info {
     font-size: 0.98rem;
     margin-bottom: 0.5rem;
-    color: #b0b8c6;
+    color: #e0c3fc;
     display: flex;
     align-items: center;
     gap: 0.7rem;
 }
 .verified-badge {
-    color: #00ffe7;
+    color: #39ff14;
     font-size: 1.1rem;
     margin-left: 0.3rem;
 }
 .provider-rating {
     font-size: 0.95rem;
-    color: #00ffe7;
+    color: #a259ff;
     margin-left: 0.5rem;
 }
 .contract-description {
-    color: #b0b8c6;
+    color: #e0c3fc;
     margin-bottom: 0.7rem;
     font-size: 1.05rem;
 }
 .contract-details {
     display: flex;
     justify-content: space-between;
-    color: #b0b8c6;
+    color: #e0c3fc;
     font-size: 0.98rem;
     margin-bottom: 0.5rem;
 }
 .contract-status {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 1.05rem;
-    color: #00ffe7;
+    color: #a259ff;
 }
 .status-taken { color: #f59e0b; }
-.status-completed { color: #10b981; }
-.status-available { color: #00ffe7; }
+.status-taken { color: #ff2e63; }
+.status-completed { color: #39ff14; }
+.status-available { color: #a259ff; }
 
 .contract-actions {
     display: flex;
@@ -275,8 +276,8 @@ body {
     gap: 1.2rem;
 }
 .member-card {
-    background: rgba(18, 24, 36, 0.95);
-    border: 1.5px solid #00ffe7;
+    background: rgba(42, 24, 80, 0.95);
+    border: 1.5px solid #a259ff;
     border-radius: 10px;
     box-shadow: 0 2px 12px 0 #00ffe71a;
     padding: 1.2rem 1rem;
@@ -286,14 +287,14 @@ body {
     transition: box-shadow 0.2s, border 0.2s;
 }
 .member-card:hover {
-    box-shadow: 0 4px 24px 0 #00ffe7cc;
-    border: 1.5px solid #00b3a6;
+    box-shadow: 0 4px 24px 0 #a259ffcc;
+    border: 1.5px solid #39ff14;
 }
 .member-avatar {
     width: 48px; height: 48px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00ffe7 60%, #00b3a6 100%);
-    color: #10131a;
+    background: linear-gradient(135deg, #a259ff 60%, #39ff14 100%);
+    color: #0a0a23;
     font-size: 1.7rem;
     font-family: 'Orbitron', Arial, sans-serif;
     display: flex;
@@ -306,11 +307,11 @@ body {
 .member-name {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 1.1rem;
-    color: #00ffe7;
+    color: #39ff14;
     margin-bottom: 0.2rem;
 }
 .member-role {
-    color: #b0b8c6;
+    color: #e0c3fc;
     font-size: 0.98rem;
     margin-bottom: 0.5rem;
 }
@@ -325,10 +326,10 @@ body {
 .stat-value {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 1.1rem;
-    color: #00ffe7;
+    color: #a259ff;
 }
 .stat-label {
-    color: #b0b8c6;
+    color: #e0c3fc;
     font-size: 0.9rem;
 }
 
@@ -343,7 +344,7 @@ body {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(10, 18, 30, 0.85);
+    background: rgba(42, 24, 80, 0.92);
     z-index: 100;
     align-items: center;
     justify-content: center;
@@ -352,7 +353,7 @@ body {
     display: flex;
 }
 .modal-content {
-    background: #10131a;
+    background: #1a1033;
     border-radius: 14px;
     box-shadow: 0 4px 32px 0 #00ffe7cc;
     padding: 2.2rem 2rem;
@@ -366,21 +367,21 @@ body {
     top: 1.2rem; right: 1.2rem;
     background: none;
     border: none;
-    color: #00ffe7;
+    color: #a259ff;
     font-size: 2rem;
     cursor: pointer;
     transition: color 0.2s;
 }
 .close-modal:hover {
-    color: #fff;
+    color: #39ff14;
 }
 
 .notification {
     position: fixed;
     top: 2.5rem; right: 2.5rem;
-    background: #10131a;
-    color: #00ffe7;
-    border: 1.5px solid #00ffe7;
+    background: #1a1033;
+    color: #a259ff;
+    border: 1.5px solid #a259ff;
     border-radius: 8px;
     padding: 1rem 1.5rem;
     font-family: 'Orbitron', Arial, sans-serif;
@@ -396,12 +397,12 @@ body {
     pointer-events: auto;
 }
 .notification.success {
-    border-color: #10b981;
-    color: #10b981;
+    border-color: #39ff14;
+    color: #39ff14;
 }
 .notification.error {
-    border-color: #f43f5e;
-    color: #f43f5e;
+    border-color: #ff2e63;
+    color: #ff2e63;
 }
 
 /* Minimalistic scrollbars */
@@ -410,7 +411,7 @@ body {
     background: #10131a;
 }
 ::-webkit-scrollbar-thumb {
-    background: #00ffe7;
+    background: #a259ff;
     border-radius: 8px;
 }
 
