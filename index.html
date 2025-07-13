@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Taverne Stellaire - Guilde Star Citizen</title>
     <link rel="stylesheet" href="star_citizen_guild_tavern.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-analytics-compat.js"></script>
 </head>
 <body>
     <div class="stars"></div>
@@ -168,9 +173,8 @@
     </div>
 
     <script type="module">
-        // Configuration Firebase (À remplacer par votre configuration)
+        // Configuration Firebase (remplacez par vos vraies clés)
         const firebaseConfig = {
-            // Vos clés Firebase ici
             apiKey: "your-api-key",
             authDomain: "your-project.firebaseapp.com",
             databaseURL: "https://your-project.firebaseio.com",
@@ -180,158 +184,16 @@
             appId: "your-app-id"
         };
 
-        // Simuler Firebase pour la démonstration
-        const mockFirebase = {
-            auth: {
-                currentUser: null,
-                onAuthStateChanged: (callback) => {
-                    // Simuler l'état d'authentification
-                    setTimeout(() => callback(this.currentUser), 100);
-                },
-                signInWithEmailAndPassword: (email, password) => {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            if (email && password) {
-                                this.currentUser = {
-                                    uid: 'mock-uid-' + Date.now(),
-                                    email: email,
-                                    displayName: email.split('@')[0]
-                                };
-                                resolve({ user: this.currentUser });
-                            } else {
-                                reject(new Error('Identifiants invalides'));
-                            }
-                        }, 1000);
-                    });
-                },
-                createUserWithEmailAndPassword: (email, password) => {
-                    return new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                            if (email && password) {
-                                this.currentUser = {
-                                    uid: 'mock-uid-' + Date.now(),
-                                    email: email,
-                                    displayName: email.split('@')[0]
-                                };
-                                resolve({ user: this.currentUser });
-                            } else {
-                                reject(new Error('Erreur lors de la création du compte'));
-                            }
-                        }, 1000);
-                    });
-                },
-                signOut: () => {
-                    return new Promise((resolve) => {
-                        this.currentUser = null;
-                        resolve();
-                    });
-                }
-            },
-            database: {
-                ref: (path) => ({
-                    push: (data) => Promise.resolve({ key: 'mock-key-' + Date.now() }),
-                    set: (data) => Promise.resolve(),
-                    once: (eventType) => Promise.resolve({
-                        val: () => mockData[path] || null
-                    }),
-                    on: (eventType, callback) => {
-                        setTimeout(() => callback({
-                            val: () => mockData[path] || null
-                        }), 100);
-                    }
-                })
-            }
-        };
-
-        // Données mockées pour la démonstration
-        const mockData = {
-            'contracts': {
-                'contract1': {
-                    id: 'contract1',
-                    title: 'Transport de Marchandises',
-                    description: 'Transport sécurisé de marchandises médicales d\'Area 18 vers Port Olisar. Attention aux pirates dans la zone de Crusader !',
-                    reward: 45000,
-                    difficulty: 4,
-                    location: 'Stanton System',
-                    type: 'Escorte',
-                    status: 'taken',
-                    takenBy: 'mock-uid-merc1',
-                    createdBy: 'mock-uid-provider2',
-                    createdAt: Date.now() - 172800000,
-                    provider: {
-                        username: 'VIPServices',
-                        rating: 4.8,
-                        verified: true
-                    },
-                    assignedTo: {
-                        username: 'Ghost-Rider',
-                        rating: 4.2
-                    }
-                },
-                'contract3': {
-                    id: 'contract3',
-                    title: 'Élimination de Pirates',
-                    description: 'Nettoyer le secteur Yela des pirates qui perturbent les routes commerciales. Équipe de 3-4 chasseurs recommandée.',
-                    reward: 60000,
-                    difficulty: 5,
-                    location: 'Crusader System',
-                    type: 'Combat',
-                    status: 'available',
-                    createdBy: 'mock-uid-provider3',
-                    createdAt: Date.now() - 259200000,
-                    provider: {
-                        username: 'SecurityCorp',
-                        rating: 4.9,
-                        verified: true
-                    }
-                }
-            },
-            'users': {
-                'mock-uid-provider1': {
-                    username: 'TradeMaster',
-                    email: 'trade@example.com',
-                    specialty: 'Commerce',
-                    rating: 4.5,
-                    totalContracts: 23,
-                    completedContracts: 21,
-                    verified: true,
-                    joinDate: Date.now() - 7776000000,
-                    credits: 150000
-                },
-                'mock-uid-merc1': {
-                    username: 'Ghost-Rider',
-                    email: 'ghost@example.com',
-                    specialty: 'Combat',
-                    rating: 4.2,
-                    totalContracts: 15,
-                    completedContracts: 13,
-                    verified: true,
-                    joinDate: Date.now() - 5184000000,
-                    credits: 89000
-                }
-            },
-            'reviews': {
-                'mock-uid-provider1': [
-                    {
-                        author: 'Ghost-Rider',
-                        rating: 5,
-                        comment: 'Excellent fournisseur, paiement rapide et contrat clair.',
-                        date: Date.now() - 86400000
-                    },
-                    {
-                        author: 'StarMiner',
-                        rating: 4,
-                        comment: 'Bon contrat, quelques détails manquants mais globalement satisfait.',
-                        date: Date.now() - 172800000
-                    }
-                ]
-            }
-        };
+        // Initialiser Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
         // Variables globales
         let currentUser = null;
-        let contracts = [];
-        let users = [];
+        let contracts = {};
+        let users = {};
+        let reviews = {};
 
         // Fonctions d'authentification
         window.login = async function() {
@@ -344,16 +206,13 @@
             }
 
             try {
-                const result = await mockFirebase.auth.signInWithEmailAndPassword(email, password);
+                const result = await auth.signInWithEmailAndPassword(email, password);
                 currentUser = result.user;
-                
-                // Charger ou créer le profil utilisateur
                 await loadUserProfile();
-                
                 showMainContent();
                 showNotification('Connexion réussie !', 'success');
-                loadContracts();
-                loadMembers();
+                await loadContracts();
+                await loadMembers();
             } catch (error) {
                 showNotification('Erreur de connexion: ' + error.message, 'error');
             }
@@ -371,7 +230,7 @@
             }
 
             try {
-                const result = await mockFirebase.auth.createUserWithEmailAndPassword(email, password);
+                const result = await auth.createUserWithEmailAndPassword(email, password);
                 currentUser = result.user;
 
                 // Créer le profil utilisateur
@@ -387,12 +246,12 @@
                     credits: 0
                 };
 
-                await mockFirebase.database.ref('users/' + currentUser.uid).set(userProfile);
-                
+                await db.ref('users/' + currentUser.uid).set(userProfile);
+                await loadUserProfile();
                 showMainContent();
                 showNotification('Compte créé avec succès !', 'success');
-                loadContracts();
-                loadMembers();
+                await loadContracts();
+                await loadMembers();
             } catch (error) {
                 showNotification('Erreur lors de l\'inscription: ' + error.message, 'error');
             }
@@ -400,7 +259,7 @@
 
         window.logout = async function() {
             try {
-                await mockFirebase.auth.signOut();
+                await auth.signOut();
                 currentUser = null;
                 document.getElementById('mainContent').style.display = 'none';
                 document.getElementById('loginSection').style.display = 'block';
@@ -467,15 +326,14 @@
         // Fonctions de chargement des données
         async function loadUserProfile() {
             try {
-                const snapshot = await mockFirebase.database.ref('users/' + currentUser.uid).once('value');
+                const snapshot = await db.ref('users/' + currentUser.uid).once('value');
                 const userData = snapshot.val();
-                
                 if (userData) {
                     currentUser.profile = userData;
                 } else {
                     // Créer un profil par défaut si inexistant
                     const defaultProfile = {
-                        username: currentUser.displayName,
+                        username: currentUser.displayName || currentUser.email.split('@')[0],
                         email: currentUser.email,
                         specialty: 'Non défini',
                         rating: 5.0,
@@ -485,7 +343,7 @@
                         joinDate: Date.now(),
                         credits: 0
                     };
-                    await mockFirebase.database.ref('users/' + currentUser.uid).set(defaultProfile);
+                    await db.ref('users/' + currentUser.uid).set(defaultProfile);
                     currentUser.profile = defaultProfile;
                 }
             } catch (error) {
@@ -493,11 +351,12 @@
             }
         }
 
-        function loadContracts() {
+        async function loadContracts() {
             const contractsGrid = document.getElementById('contractsGrid');
             contractsGrid.innerHTML = '';
-
-            Object.values(mockData.contracts).forEach(contract => {
+            const snapshot = await db.ref('contracts').once('value');
+            contracts = snapshot.val() || {};
+            Object.values(contracts).forEach(contract => {
                 const contractCard = createContractCard(contract);
                 contractsGrid.appendChild(contractCard);
             });
@@ -558,11 +417,12 @@
             return card;
         }
 
-        function loadMembers() {
+        async function loadMembers() {
             const membersList = document.getElementById('membersList');
             membersList.innerHTML = '';
-
-            Object.entries(mockData.users).forEach(([uid, user]) => {
+            const snapshot = await db.ref('users').once('value');
+            users = snapshot.val() || {};
+            Object.entries(users).forEach(([uid, user]) => {
                 const memberCard = createMemberCard(user, uid);
                 membersList.appendChild(memberCard);
             });
@@ -657,9 +517,8 @@
         }
 
         function loadUserReviews() {
-            const reviews = mockData.reviews[currentUser.uid] || [];
-            
-            if (reviews.length === 0) {
+            const userReviews = reviews[currentUser.uid] || [];
+            if (userReviews.length === 0) {
                 return `
                     <div class="rating-section">
                         <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus</h4>
@@ -667,12 +526,11 @@
                     </div>
                 `;
             }
-            
             return `
                 <div class="rating-section">
-                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${reviews.length})</h4>
+                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${userReviews.length})</h4>
                     <div class="reviews-list">
-                        ${reviews.map(review => `
+                        ${userReviews.map(review => `
                             <div class="review-item">
                                 <div class="review-header">
                                     <span class="review-author">${review.author}</span>
@@ -688,8 +546,10 @@
         }
 
         // Fonctions d'interaction
-        window.takeContract = function(contractId) {
-            const contract = mockData.contracts[contractId];
+        window.takeContract = async function(contractId) {
+            const contractRef = db.ref('contracts/' + contractId);
+            const snapshot = await contractRef.once('value');
+            const contract = snapshot.val();
             if (contract && contract.status === 'available') {
                 contract.status = 'taken';
                 contract.takenBy = currentUser.uid;
@@ -697,19 +557,18 @@
                     username: currentUser.profile.username,
                     rating: currentUser.profile.rating
                 };
-                
-                loadContracts();
+                await contractRef.set(contract);
+                await loadContracts();
                 showNotification('Contrat accepté avec succès !', 'success');
             }
         };
 
-        window.showContractDetails = function(contractId) {
-            const contract = mockData.contracts[contractId];
+        window.showContractDetails = async function(contractId) {
+            const snapshot = await db.ref('contracts/' + contractId).once('value');
+            const contract = snapshot.val();
             if (!contract) return;
-
             const modal = document.getElementById('contractModal');
             const details = document.getElementById('contractDetails');
-            
             details.innerHTML = `
                 <h3 style="color: #00d4ff; margin-bottom: 1rem;">${contract.title}</h3>
                 <div style="margin-bottom: 1rem;">
@@ -741,14 +600,12 @@
                     Publié le: ${new Date(contract.createdAt).toLocaleDateString('fr-FR')}
                 </div>
             `;
-            
             modal.classList.add('active');
         };
 
         window.rateProvider = function(providerId) {
             const modal = document.getElementById('ratingModal');
             const content = document.getElementById('ratingContent');
-            
             content.innerHTML = `
                 <div class="rating-input">
                     ${[1,2,3,4,5].map(star => 
@@ -763,7 +620,6 @@
                     Publier l'avis
                 </button>
             `;
-            
             modal.classList.add('active');
         };
 
@@ -774,47 +630,42 @@
             window.selectedRating = rating;
         };
 
-        window.submitRating = function(providerId) {
+        window.submitRating = async function(providerId) {
             const rating = window.selectedRating;
             const comment = document.getElementById('reviewComment').value;
-            
             if (!rating) {
                 showNotification('Veuillez sélectionner une note', 'error');
                 return;
             }
-            
             if (!comment.trim()) {
                 showNotification('Veuillez ajouter un commentaire', 'error');
                 return;
             }
-            
-            // Ajouter l'avis aux données mockées
-            if (!mockData.reviews[providerId]) {
-                mockData.reviews[providerId] = [];
-            }
-            
-            mockData.reviews[providerId].push({
+            const review = {
                 author: currentUser.profile.username,
                 rating: rating,
                 comment: comment,
                 date: Date.now()
-            });
-            
+            };
+            const reviewsRef = db.ref('reviews/' + providerId);
+            const snapshot = await reviewsRef.once('value');
+            let userReviews = snapshot.val() || [];
+            userReviews.push(review);
+            await reviewsRef.set(userReviews);
             closeModal('ratingModal');
             showNotification('Avis publié avec succès !', 'success');
         };
 
-        window.showMemberProfile = function(userId) {
-            const user = mockData.users[userId];
+        window.showMemberProfile = async function(userId) {
+            const userSnap = await db.ref('users/' + userId).once('value');
+            const user = userSnap.val();
             if (!user) return;
-            
-            const reviews = mockData.reviews[userId] || [];
+            const reviewsSnap = await db.ref('reviews/' + userId).once('value');
+            const userReviews = reviewsSnap.val() || [];
             const successRate = user.totalContracts > 0 ? 
                 Math.round((user.completedContracts / user.totalContracts) * 100) : 100;
-            
             const modal = document.getElementById('contractModal');
             const details = document.getElementById('contractDetails');
-            
             details.innerHTML = `
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <div class="member-avatar" style="margin: 0 auto 1rem;">${user.username.charAt(0).toUpperCase()}</div>
@@ -824,7 +675,6 @@
                     </h3>
                     <p style="color: #888;">${user.specialty}</p>
                 </div>
-                
                 <div class="member-stats" style="margin-bottom: 2rem;">
                     <div class="stat">
                         <div class="stat-value">${user.completedContracts}</div>
@@ -839,20 +689,17 @@
                         <div class="stat-label">UEC Gagnés</div>
                     </div>
                 </div>
-                
                 <div class="provider-rating" style="text-align: center; margin-bottom: 2rem;">
                     <span class="stars-rating" style="font-size: 1.5rem;">${'★'.repeat(Math.floor(user.rating))}${'☆'.repeat(5 - Math.floor(user.rating))}</span>
                     <div style="color: #888; margin-top: 0.5rem;">Note moyenne: ${user.rating}/5</div>
                 </div>
-                
                 <div style="text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 2rem;">
                     Membre depuis: ${new Date(user.joinDate).toLocaleDateString('fr-FR')}
                 </div>
-                
-                ${reviews.length > 0 ? `
-                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${reviews.length})</h4>
+                ${userReviews.length > 0 ? `
+                    <h4 style="color: #00d4ff; margin-bottom: 1rem;">Avis reçus (${userReviews.length})</h4>
                     <div class="reviews-list">
-                        ${reviews.map(review => `
+                        ${userReviews.map(review => `
                             <div class="review-item">
                                 <div class="review-header">
                                     <span class="review-author">${review.author}</span>
@@ -865,7 +712,6 @@
                     </div>
                 ` : '<p style="color: #888; text-align: center;">Aucun avis pour le moment</p>'}
             `;
-            
             modal.classList.add('active');
         };
 
@@ -874,9 +720,8 @@
         };
 
         // Gestion du formulaire de création de contrat
-        document.getElementById('createContractForm').addEventListener('submit', function(e) {
+        document.getElementById('createContractForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
             const contractData = {
                 id: 'contract_' + Date.now(),
                 title: document.getElementById('contractTitle').value,
@@ -894,19 +739,10 @@
                     verified: currentUser.profile.verified
                 }
             };
-            
-            // Ajouter aux données mockées
-            mockData.contracts[contractData.id] = contractData;
-            
-            // Recharger les contrats
-            loadContracts();
-            
-            // Réinitialiser le formulaire
+            await db.ref('contracts/' + contractData.id).set(contractData);
+            await loadContracts();
             this.reset();
-            
-            // Retourner à la section des contrats
             showSection('contracts');
-            
             showNotification('Contrat créé avec succès !', 'success');
         });
 
@@ -961,17 +797,23 @@
         createStars();
         createParticles();
 
+        // Charger les reviews en mémoire (pour le profil utilisateur)
+        async function loadAllReviews() {
+            const snapshot = await db.ref('reviews').once('value');
+            reviews = snapshot.val() || {};
+        }
+
         // Vérifier l'état d'authentification au chargement
-        mockFirebase.auth.onAuthStateChanged(function(user) {
+        auth.onAuthStateChanged(async function(user) {
             if (user) {
                 currentUser = user;
-                loadUserProfile().then(() => {
-                    showMainContent();
-                    loadContracts();
-                    loadMembers();
-                });
+                await loadUserProfile();
+                await loadAllReviews();
+                showMainContent();
+                await loadContracts();
+                await loadMembers();
             }
         });
     </script>
 </body>
- </html>
+</html>
