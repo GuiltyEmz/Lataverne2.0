@@ -27,13 +27,13 @@ body {
     background: #fff;
     border-radius: 50%;
     opacity: 0.7;
-    box-shadow: 0 0 8px #a259ff, 0 0 2px #fff;
+    box-shadow: 0 0 12px #ffe600, 0 0 2px #fff;
 }
 
 .particle {
     position: absolute;
     width: 2px; height: 2px;
-    background: #39ff14;
+    background: #00e5ff;
     border-radius: 50%;
     opacity: 0.2;
     filter: blur(1px);
@@ -42,9 +42,9 @@ body {
 .header {
     text-align: center;
     padding: 2.5rem 0 1.5rem 0;
-    background: rgba(42, 24, 80, 0.85);
-    border-bottom: 1px solid #a259ff;
-    box-shadow: 0 2px 24px 0 #a259ff55;
+    background: #ffe600;
+    border-bottom: 4px solid #ff1744;
+    box-shadow: 0 2px 24px 0 #ff1744;
     position: relative;
     z-index: 2;
 }
@@ -52,10 +52,10 @@ body {
 .title {
     font-family: 'Orbitron', Arial, sans-serif;
     font-size: 2.7rem;
-    color: #a259ff;
+    color: #ff1744;
     letter-spacing: 0.12em;
     margin: 0 0 0.3rem 0;
-    text-shadow: 0 0 16px #a259ffcc, 0 0 2px #fff;
+    text-shadow: 0 0 24px #ffe600, 0 0 2px #fff;
 }
 
 .subtitle {
